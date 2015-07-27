@@ -100,7 +100,7 @@ public final class PpcFixedFormat extends PpcFormat {
     /**
      * Return the currency code that identifies the units in which values formatted and
      * (by-default) parsed by this instance are denominated.  For example, if the formatter's
-     * denomination is millipeercoins, then this method will return <code>"mPPC"</code>,
+     * denomination is millipeercoins, then this method will return <code>"mXPY"</code>,
      * assuming the default base currency-code is not overridden using a
      * {@link PpcFormat.Builder}.  */
     public String code() { return prefixCode(coinCode(), scale); }

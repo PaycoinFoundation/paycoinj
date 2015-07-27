@@ -22,6 +22,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A VersionMessage holds information exchanged during connection setup with another peer. Most of the fields are not
@@ -34,6 +36,7 @@ import java.net.UnknownHostException;
  */
 public class VersionMessage extends Message {
     private static final long serialVersionUID = 7313594258967483180L;
+    private static final Logger log = LoggerFactory.getLogger(VersionMessage.class);
 
     /** A services flag that denotes whether the peer has a copy of the block chain or not. */
     public static final int NODE_NETWORK = 1;
@@ -110,7 +113,7 @@ public class VersionMessage extends Message {
         if (protocolVersion > 31402)
             length += 8;
         length += VarInt.sizeOf(subVer.length()) + subVer.length();
-        System.out.println(String.format("version %d", length));
+        log.debug("version {}", length);
     }
 
     @Override
@@ -185,7 +188,7 @@ public class VersionMessage extends Message {
         // Size of known block chain.
         Utils.uint32ToByteStreamLE(bestHeight, buf);
         buf.write(relayTxesBeforeFilter ? 1 : 0);
-        //System.out.println(String.format("serialized size: %d", buf));
+        log.debug("serialized size: {}");
     }
     
     @Override
@@ -202,7 +205,7 @@ public class VersionMessage extends Message {
             System.arraycopy(payload, offset, buf, 0, length);
             return buf;
         }
-        System.out.println(String.format("unsafePeercoinSerialize: %d", length));
+        log.debug("unsafePeercoinSerialize: {}", length);
         // No cached array available so serialize parts by stream.
         ByteArrayOutputStream stream = new UnsafeByteArrayOutputStream(length < 32 ? 32 : length);
         //ByteArrayOutputStream stream = new UnsafeByteArrayOutputStream(length < 32 ? 32 : length);

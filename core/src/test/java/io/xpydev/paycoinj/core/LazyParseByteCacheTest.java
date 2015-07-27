@@ -57,7 +57,7 @@ import static org.junit.Assert.*;
 public class LazyParseByteCacheTest {
 
     private final byte[] txMessage = HEX.withSeparator(" ", 2).decode(
-            "e6 e8 e9 e5 74 78 00 00  00 00 00 00 00 00 00 00" +
+            "aa aa aa aa 74 78 00 00  00 00 00 00 00 00 00 00" +
             "79 01 00 00 60 b3 19 26" +
             "01 00 00 00 aa 3d 0b 54  02 a0 46 88 b5 c7 bf 97" +
             "a7 2b 6c 3d 28 b8 4a 6c  5e a0 fd cd 3b f1 7a 19" +
