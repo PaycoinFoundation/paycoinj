@@ -421,18 +421,20 @@ public abstract class AbstractBlockChain {
                 orphanBlocks.put(block.getHash(), new OrphanBlock(block, filteredTxHashList, filteredTxn));
                 return false;
             } else {
+                /*
                 // It connects to somewhere on the chain. Not necessarily the top of the best known chain.
             	
             	// Determine if centrally trusted hash
                 // Wait a while for the server if the block is less than three hours old
-    		    try {
-			    if (validHashStore != null && !validHashStore.isValidHash(block.getHash(), this, block.getTimeSeconds() > Utils.currentTimeSeconds() - 60*60*3)) {
-//			       throw new VerificationException("Invalid hash received");
-			    }
-		    } catch (IOException e) {
-			    log.error("IO Error when determining valid hashes: ", e);
-			    return false;
-		    }
+                try {
+                    if (validHashStore != null && !validHashStore.isValidHash(block.getHash(), this, block.getTimeSeconds() > Utils.currentTimeSeconds() - 60 * 60 * 3)) {
+                        throw new VerificationException("Invalid hash received");
+                    }
+                } catch (IOException e) {
+                    log.error("IO Error when determining valid hashes: ", e);
+                    return false;
+                }
+                */
             	
                 checkDifficultyTransitions(storedPrev, block);
                 log.info("moving to connect block: {}", block.getHashAsString());
