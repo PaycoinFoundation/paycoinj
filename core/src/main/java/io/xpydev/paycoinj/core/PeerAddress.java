@@ -58,8 +58,8 @@ public class PeerAddress extends ChildMessage {
      * @param offset The location of the first payload byte within the array.
      * @param protocolVersion Paycoin protocol version.
      * @param parseLazy Whether to perform a full parse immediately or delay until a read is requested.
-     * @param parseRetain Whether to retain the backing byte array for quick reserialization.  
-     * If true and the backing byte array is invalidated due to modification of a field then 
+     * @param parseRetain Whether to retain the backing byte array for quick reserialization.
+     * If true and the backing byte array is invalidated due to modification of a field then
      * the cached bytes may be repopulated and retained if the message is serialized again in the future.
      * @throws ProtocolException
      */
@@ -67,7 +67,7 @@ public class PeerAddress extends ChildMessage {
                        boolean parseRetain) throws ProtocolException {
         super(params, payload, offset, protocolVersion, parent, parseLazy, parseRetain, UNKNOWN_LENGTH);
         // Message length is calculated in parseLite which is guaranteed to be called before it is ever read.
-        // Even though message length is static for a PeerAddress it is safer to leave it there 
+        // Even though message length is static for a PeerAddress it is safer to leave it there
         // as it will be set regardless of which constructor was used.
     }
 
@@ -168,7 +168,7 @@ public class PeerAddress extends ChildMessage {
       */
     @Override
     public int getMessageSize() {
-        // The 4 byte difference is the uint32 timestamp that was introduced in version 31402 
+        // The 4 byte difference is the uint32 timestamp that was introduced in version 31402
         //length = protocolVersion > 31402 ? MESSAGE_SIZE : MESSAGE_SIZE - 4;
         length = 30;
         return length;
@@ -265,7 +265,7 @@ public class PeerAddress extends ChildMessage {
     public int hashCode() {
         return addr.hashCode() ^ port ^ (int) time;
     }
-    
+
     public InetSocketAddress toSocketAddress() {
         return new InetSocketAddress(addr, port);
     }

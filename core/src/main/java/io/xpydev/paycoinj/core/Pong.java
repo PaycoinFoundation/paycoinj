@@ -28,7 +28,7 @@ public class Pong extends Message {
     public Pong(NetworkParameters params, byte[] payloadBytes) throws ProtocolException {
         super(params, payloadBytes, 0);
     }
-    
+
     /**
      * Create a Pong with a nonce value.
      * Only use this if the remote node has a protocol version > 60000
@@ -36,22 +36,22 @@ public class Pong extends Message {
     public Pong(long nonce) {
         this.nonce = nonce;
     }
-    
+
     @Override
     void parse() throws ProtocolException {
         nonce = readInt64();
         length = 8;
     }
-    
+
     @Override
     public void paycoinSerializeToStream(OutputStream stream) throws IOException {
         Utils.int64ToByteStreamLE(nonce, stream);
     }
-    
+
     @Override
     protected void parseLite() {
     }
-    
+
 
     /** Returns the nonce sent by the remote peer. */
     public long getNonce() {
@@ -59,4 +59,3 @@ public class Pong extends Message {
     }
 
 }
-

@@ -1342,7 +1342,7 @@ public class Wallet extends BaseTaggableObject implements Serializable, BlockCha
             throw new UnreadableWalletException("Could not open file", e);
         }
     }
-    
+
     public boolean isConsistent() {
         lock.lock();
         try {
@@ -2999,7 +2999,7 @@ public class Wallet extends BaseTaggableObject implements Serializable, BlockCha
          * mean it has some outputs to the intended destinations, but no inputs or change address (and therefore no
          * fees) - the wallet will calculate all that for you and update tx later.</p>
          *
-         * <p>Be careful when adding outputs that you check the min output value to avoid the whole transaction being 
+         * <p>Be careful when adding outputs that you check the min output value to avoid the whole transaction being
          * rejected because one output is too small.</p>
          *
          * <p>If there are already inputs to the transaction, make sure their out point has a connected output,
@@ -3128,9 +3128,9 @@ public class Wallet extends BaseTaggableObject implements Serializable, BlockCha
         /**
          * <p>Creates a new SendRequest to the given pubkey for the given value.</p>
          *
-         * <p>Be careful to check the output's value is more or equal to the minimum allowed 
-         * afterwards or you risk having the transaction rejected by the network. Note that using 
-         * {@link SendRequest#to(Address, Coin)} will result in a smaller output, and thus the 
+         * <p>Be careful to check the output's value is more or equal to the minimum allowed
+         * afterwards or you risk having the transaction rejected by the network. Note that using
+         * {@link SendRequest#to(Address, Coin)} will result in a smaller output, and thus the
          * ability to use a smaller output value without rejection.</p>
          */
         public static SendRequest to(NetworkParameters params, ECKey destination, Coin value) {
@@ -3378,7 +3378,7 @@ public class Wallet extends BaseTaggableObject implements Serializable, BlockCha
             checkArgument(!req.completed, "Given SendRequest has already been completed.");
             // Calculate the amount of value we need to import
             // and check outputs are at least minimum values allowed
-            
+
             Coin value = Coin.ZERO;
             for (TransactionOutput output : req.tx.getOutputs()) {
                 if (output.getValue().compareTo(Transaction.MIN_OUTPUT_VALUE) < 0 && !req.emptyWallet)
@@ -3541,13 +3541,13 @@ public class Wallet extends BaseTaggableObject implements Serializable, BlockCha
         // Check if we need additional fee due to the transaction's size
         int size = tx.paycoinSerialize().length;
         size += estimateBytesForSigning(coinSelection);
-        
+
         // ppcoin: Always add required fee
         if (baseFee.compareTo(Transaction.REFERENCE_DEFAULT_MIN_TX_FEE) < 0)
             baseFee = Transaction.REFERENCE_DEFAULT_MIN_TX_FEE;
-        
+
         Coin fee = baseFee.add(feePerKb.multiply((size / 1000)));
-        
+
         output.setValue(output.getValue().subtract(fee));
         // Fail if output is below minimum allowed value.
         return Transaction.MIN_OUTPUT_VALUE.compareTo(output.getValue()) <= 0;
@@ -3860,10 +3860,10 @@ public class Wallet extends BaseTaggableObject implements Serializable, BlockCha
      * <p>Gets a bloom filter that contains all of the public keys from this wallet, and which will provide the given
      * false-positive rate if it has size elements. Keep in mind that you will get 2 elements in the bloom filter for
      * each key in the wallet, for the public key and the hash of the public key (address form).</p>
-     * 
+     *
      * <p>This is used to generate a BloomFilter which can be {@link BloomFilter#merge(BloomFilter)}d with another.
      * It could also be used if you have a specific target for the filter's size.</p>
-     * 
+     *
      * <p>See the docs for {@link BloomFilter(int, double)} for a brief explanation of anonymity when using bloom
      * filters.</p>
      */
@@ -4042,11 +4042,11 @@ public class Wallet extends BaseTaggableObject implements Serializable, BlockCha
             resetTxInputs(req, originalInputs);
 
             Coin fees = req.fee == null ? Transaction.REFERENCE_DEFAULT_MIN_TX_FEE : req.fee;
-            
+
             // ppcoin: We always include the required fee
             if (fees.compareTo(Transaction.REFERENCE_DEFAULT_MIN_TX_FEE) < 0)
                 fees = Transaction.REFERENCE_DEFAULT_MIN_TX_FEE;
-            
+
             if (lastCalculatedSize > 0)
                 // If the size is exactly 1000 bytes then we'll over-pay, but this should be rare.
                 fees = fees.add(req.feePerKb.multiply(lastCalculatedSize / 1000));
@@ -4085,7 +4085,7 @@ public class Wallet extends BaseTaggableObject implements Serializable, BlockCha
                 // Want change to go up to the minimum output amount
                 if (additionalValueForNextCategory != null)
                     additionalValueForNextCategory = additionalValueForNextCategory.add(Transaction.MIN_OUTPUT_VALUE.subtract(change));
-                else 
+                else
                     additionalValueForNextCategory = Transaction.MIN_OUTPUT_VALUE.subtract(change);
                 // Change is discarded
                 change = Coin.ZERO;

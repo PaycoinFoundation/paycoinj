@@ -83,7 +83,7 @@ public abstract class NetworkParameters implements Serializable {
      * The depth of blocks required for a coinbase transaction to be spendable.
      */
     protected int spendableCoinbaseDepth;
-    
+
     protected int[] acceptableAddressCodes;
     protected String[] dnsSeeds;
     protected Map<Integer, Sha256Hash> checkpoints = new HashMap<Integer, Sha256Hash>();
@@ -111,17 +111,17 @@ public abstract class NetworkParameters implements Serializable {
             throw new RuntimeException(e);
         }
         genesisBlock.addTransaction(t);
-        
+
         String merkleHash = genesisBlock.getMerkleRoot().toString();
         checkState(merkleHash.equals("1552f748afb7ff4e04776652c5a17d4073e60b7004e9bca639a99edb82aeb1a0"), merkleHash);
-        
+
         return genesisBlock;
     }
 
     public static final int TARGET_TIMESPAN = 2 * 60;  // 2 minutes.
     public static final int TARGET_SPACING = 1 * 60;  // 1 minute per block.
     public static final int INTERVAL = TARGET_TIMESPAN / TARGET_SPACING; // Every other block
-    
+
     /**
      * Blocks with a timestamp after this should enforce BIP 16, aka "Pay to script hash". This BIP changed the
      * network rules in a soft-forking manner, that is, blocks that don't follow the rules are accepted but not
@@ -221,7 +221,7 @@ public abstract class NetworkParameters implements Serializable {
      * prevBlockHash pointers in the block headers.</p>
      *
      * <p>The genesis blocks for both test and prod networks contain the timestamp of when they were created,
-     * and a message in the coinbase transaction. It says, <i>"Matonis 07-AUG-2012 Parallel Currencies And The 
+     * and a message in the coinbase transaction. It says, <i>"Matonis 07-AUG-2012 Parallel Currencies And The
      * Roadmap To Monetary Freedom"</i>.</p>
      */
     public Block getGenesisBlock() {

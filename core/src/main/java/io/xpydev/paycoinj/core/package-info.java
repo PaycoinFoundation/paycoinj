@@ -6,4 +6,3 @@
  * To learn more please consult the documentation on the website.
  */
 package io.xpydev.paycoinj.core;
-

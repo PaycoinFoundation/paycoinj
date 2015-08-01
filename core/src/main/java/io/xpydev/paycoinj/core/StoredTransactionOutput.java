@@ -74,7 +74,7 @@ public class StoredTransactionOutput implements Serializable {
         if (in.read(valueBytes, 0, 8) != 8)
             throw new EOFException();
         value = Coin.valueOf(Utils.readInt64(valueBytes, 0));
-        
+
         int scriptBytesLength = ((in.read() & 0xFF) << 0) |
                                 ((in.read() & 0xFF) << 8) |
                                 ((in.read() & 0xFF) << 16) |
@@ -82,12 +82,12 @@ public class StoredTransactionOutput implements Serializable {
         scriptBytes = new byte[scriptBytesLength];
         if (in.read(scriptBytes) != scriptBytesLength)
             throw new EOFException();
-        
+
         byte[] hashBytes = new byte[32];
         if (in.read(hashBytes) != 32)
             throw new EOFException();
         hash = new Sha256Hash(hashBytes);
-        
+
         byte[] indexBytes = new byte[4];
         if (in.read(indexBytes) != 4)
             throw new EOFException();
@@ -157,16 +157,16 @@ public class StoredTransactionOutput implements Serializable {
 
     public void serializeToStream(OutputStream bos) throws IOException {
         Utils.uint64ToByteStreamLE(BigInteger.valueOf(value.value), bos);
-        
+
         bos.write(0xFF & scriptBytes.length >> 0);
         bos.write(0xFF & scriptBytes.length >> 8);
         bos.write(0xFF & (scriptBytes.length >> 16));
         bos.write(0xFF & (scriptBytes.length >> 24));
         bos.write(scriptBytes);
-        
+
         bos.write(hash.getBytes());
         Utils.uint32ToByteStreamLE(index, bos);
-        
+
         bos.write(0xFF & (height >> 0));
         bos.write(0xFF & (height >> 8));
         bos.write(0xFF & (height >> 16));

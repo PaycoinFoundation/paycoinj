@@ -22,11 +22,11 @@ import java.io.OutputStream;
 public class Ping extends Message {
     private long nonce;
     private boolean hasNonce;
-    
+
     public Ping(NetworkParameters params, byte[] payloadBytes) throws ProtocolException {
         super(params, payloadBytes, 0);
     }
-    
+
     /**
      * Create a Ping with a nonce value.
      * Only use this if the remote node has a protocol version > 60000
@@ -35,7 +35,7 @@ public class Ping extends Message {
         this.nonce = nonce;
         this.hasNonce = true;
     }
-    
+
     /**
      * Create a Ping without a nonce value.
      * Only use this if the remote node has a protocol version <= 60000
@@ -43,7 +43,7 @@ public class Ping extends Message {
     public Ping() {
         this.hasNonce = false;
     }
-    
+
     @Override
     public void paycoinSerializeToStream(OutputStream stream) throws IOException {
         if (hasNonce)
@@ -60,19 +60,18 @@ public class Ping extends Message {
         }
         length = hasNonce ? 8 : 0;
     }
-    
+
     @Override
     protected void parseLite() {
-        
+
     }
-    
+
     public boolean hasNonce() {
         return hasNonce;
     }
-    
+
     public long getNonce() {
         return nonce;
     }
 
 }
-

@@ -36,4 +36,3 @@ public interface Monetary extends Serializable {
 
     int signum();
 }
-
