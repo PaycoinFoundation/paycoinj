@@ -54,11 +54,13 @@ public abstract class NetworkParameters implements Serializable {
 
     /** The string returned by getId() for the main, production network where people trade things. */
     public static final String ID_MAINNET = "org.paycoin.production";
+    public static final String ID_TESTNET = "org.paycoin.testnet";
     /** Unit test network. */
     public static final String ID_UNITTESTNET = "io.xpydev.paycoinj.unittest";
 
     /** The string used by the payment protocol to represent the main net. */
     public static final String PAYMENT_PROTOCOL_ID_MAINNET = "main";
+    public static final String PAYMENT_PROTOCOL_ID_TESTNET = "test";
 
     protected Block genesisBlock;
     protected BigInteger maxTarget;
