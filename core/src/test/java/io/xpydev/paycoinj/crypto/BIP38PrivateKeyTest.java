@@ -16,45 +16,40 @@
 
 package io.xpydev.paycoinj.crypto;
 
-import io.xpydev.paycoinj.crypto.BIP38PrivateKey;
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
+
 import io.xpydev.paycoinj.core.ECKey;
 import io.xpydev.paycoinj.crypto.BIP38PrivateKey.BadPassphraseException;
 import io.xpydev.paycoinj.params.MainNetParams;
-import org.junit.Test;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-
-import static org.junit.Assert.assertEquals;
 
 public class BIP38PrivateKeyTest {
 
     private static final MainNetParams MAINNET = MainNetParams.get();
-
+    
     @Test
     public void bip38testvector_test1() throws Exception {
         BIP38PrivateKey encryptedKey = new BIP38PrivateKey(MAINNET,
-                "6PfRBdq72gua9HRkZS1X8DJLd8vRi7hbNjUkiauLkThWvd52eMyGmeS7vc");
+                "6PYWfAfKdtftVhUG4W4PJ79x5pQddNgSrpJ9vo14jbXPq6acnXCUkobWDG");
         ECKey key = encryptedKey.decrypt("TestingOneTwoThree");
-        assertEquals("79mY6oZViLXkGjgD2BDsdP6WVzqEJU9aAhDevZzRFZNJ4My5qcB", key.getPrivateKeyEncoded(MAINNET)
+        assertEquals("U9FsMwFrD4Kd5xpFwNWuyAwke8obAGHaSznnpmCUErBfgN6stFRz", key.getPrivateKeyEncoded(MAINNET)
                 .toString());
     }
 
     @Test
     public void bip38testvector_test2() throws Exception {
         BIP38PrivateKey encryptedKey = new BIP38PrivateKey(MAINNET,
-                "6PfSCRxC8cvNk83vJV7FDSS3HWcyez2bVzc4wqTFFHGMwnaowAjQrDCeA3");
+                "6PYTRc4AZVnHtt7oWvnNn34cEsuzr2DoLvbaAhCT8g4YnT2saPZGBXaXTx");
         ECKey key = encryptedKey.decrypt("Satoshi");
-        assertEquals("7AKD3wi1cMKpha7UGGT1LroBZhw55QciLedyqqjUrHhEyfaAqiK", key.getPrivateKeyEncoded(MAINNET)
+        assertEquals("UBvrNqwkBJbfWhC2iwVLoRcHyvrAZTuG5VaRxX8fj771a4Dq3EMg", key.getPrivateKeyEncoded(MAINNET)
                 .toString());
     }
 
     @Test(expected = BadPassphraseException.class)
     public void badPassphrase() throws Exception {
         BIP38PrivateKey encryptedKey = new BIP38PrivateKey(MAINNET,
-                "6PfRBdq72gua9HRkZS1X8DJLd8vRi7hbNjUkiauLkThWvd52eMyGmeS7vc");
+                "6PYTCnfcPwZuzERof9gngDcx4fGsqexv8xCyVcuadYtSHaWEytmnhW4d4g");
         encryptedKey.decrypt("BAD");
     }
 

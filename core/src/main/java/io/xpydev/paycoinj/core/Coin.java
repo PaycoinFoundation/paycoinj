@@ -56,12 +56,12 @@ public final class Coin implements Monetary, Comparable<Coin>, Serializable {
     public static final Coin CENT = COIN.divide(100);
 
     /**
-     * 0.001 Paycoins, also known as 1 mPPC.
+     * 0.001 Paycoins, also known as 1 mXPY.
      */
     public static final Coin MILLICOIN = COIN.divide(1000);
 
     /**
-     * 0.000001 Paycoin, also known as 1 µPPC or 1 uPPC.
+     * 0.000001 Paycoin, also known as 1 µXPY or 1 uXPY.
      */
     public static final Coin MICROCOIN = MILLICOIN.divide(1000);
 
@@ -220,7 +220,7 @@ public final class Coin implements Monetary, Comparable<Coin>, Serializable {
         return this.value;
     }
 
-    private static final MonetaryFormat FRIENDLY_FORMAT = MonetaryFormat.PPC.minDecimals(2).repeatOptionalDecimals(1, 4).postfixCode();
+    private static final MonetaryFormat FRIENDLY_FORMAT = MonetaryFormat.XPY.minDecimals(2).repeatOptionalDecimals(1, 4).postfixCode();
 
     /**
      * Returns the value as a 0.12 type string. More digits after the decimal place will be used
@@ -230,7 +230,7 @@ public final class Coin implements Monetary, Comparable<Coin>, Serializable {
         return FRIENDLY_FORMAT.format(this).toString();
     }
 
-    private static final MonetaryFormat PLAIN_FORMAT = MonetaryFormat.PPC.minDecimals(0).repeatOptionalDecimals(1, 6).noCode();
+    private static final MonetaryFormat PLAIN_FORMAT = MonetaryFormat.XPY.minDecimals(0).repeatOptionalDecimals(1, 6).noCode();
 
     /**
      * <p>

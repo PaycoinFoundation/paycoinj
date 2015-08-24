@@ -52,11 +52,11 @@ import static io.xpydev.paycoinj.core.Utils.HEX;
 import static org.junit.Assert.*;
 
 public class PaycoinSerializerTest {
-    private final byte[] addrMessage = HEX.decode("e6e8e9e56164647200000000000000001f000000" +
+    private final byte[] addrMessage = HEX.decode("aaaaaaaa6164647200000000000000001f000000" +
             "ed52399b01e215104d010000000000000000000000000000000000ffff0a000001208d");
 
     private final byte[] txMessage = HEX.withSeparator(" ", 2).decode(
-            "e6 e8 e9 e5 74 78 00 00  00 00 00 00 00 00 00 00" +
+            "aa aa aa aa 74 78 00 00  00 00 00 00 00 00 00 00" +
             "79 01 00 00 60 b3 19 26" +
             "01 00 00 00 aa 3d 0b 54  02 a0 46 88 b5 c7 bf 97" +
             "a7 2b 6c 3d 28 b8 4a 6c  5e a0 fd cd 3b f1 7a 19" +
@@ -186,7 +186,7 @@ public class PaycoinSerializerTest {
     public void testHeaders1() throws Exception {
         PaycoinSerializer bs = new PaycoinSerializer(MainNetParams.get());
 
-        HeadersMessage hm = (HeadersMessage) bs.deserialize(ByteBuffer.wrap(HEX.decode("e6e8e9e5686561" +
+        HeadersMessage hm = (HeadersMessage) bs.deserialize(ByteBuffer.wrap(HEX.decode("aaaaaaaa686561" +
                 "64657273000000000053000000a25e0bfc01010000006fe28c0ab6f1b372c1a6a246ae6" +
                 "3f74f931e8365e15a089c68d6190000000000982051fd1e4ba744bbbe680e1fee14677b" +
                 "a1a3c3540bf7b1cdb606e857233e0e61bc6649ffff001d01e362990000")));
@@ -211,7 +211,7 @@ public class PaycoinSerializerTest {
     public void testHeaders2() throws Exception {
         PaycoinSerializer bs = new PaycoinSerializer(MainNetParams.get());
 
-        HeadersMessage hm = (HeadersMessage) bs.deserialize(ByteBuffer.wrap(HEX.decode("e6e8e9e56865616465" +
+        HeadersMessage hm = (HeadersMessage) bs.deserialize(ByteBuffer.wrap(HEX.decode("aaaaaaaa6865616465" +
                 "72730000000000ed010000ef3fcbd706010000006fe28c0ab6f1b372c1a6a246ae63f74f931e" +
                 "8365e15a089c68d6190000000000982051fd1e4ba744bbbe680e1fee14677ba1a3c3540bf7b1c" +
                 "db606e857233e0e61bc6649ffff001d01e362990000010000004860eb18bf1b1620e37e9490fc8a" +

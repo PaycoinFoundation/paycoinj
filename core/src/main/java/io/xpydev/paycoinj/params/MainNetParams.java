@@ -30,7 +30,7 @@ public class MainNetParams extends NetworkParameters {
         super();
         interval = INTERVAL;
         targetTimespan = TARGET_TIMESPAN;
-        maxTarget = Utils.decodeCompactBits(0x1e0fffffL);
+        maxTarget = Utils.decodeCompactBits(0x200fffffL);
         dumpedPrivateKeyHeader = 183;
         addressHeader = 55;
         p2shHeader = 117;

@@ -46,20 +46,20 @@ import io.xpydev.paycoinj.core.Monetary;
  */
 public final class MonetaryFormat {
 
-    /** Standard format for the PPC denomination. */
-    public static final MonetaryFormat PPC = new MonetaryFormat().shift(0).minDecimals(2).repeatOptionalDecimals(2, 2);
-    /** Standard format for the mPPC denomination. */
-    public static final MonetaryFormat MPPC = new MonetaryFormat().shift(3).minDecimals(2).optionalDecimals(1);
-    /** Standard format for the µPPC denomination. */
-    public static final MonetaryFormat UPPC = new MonetaryFormat().shift(6).minDecimals(0).optionalDecimals(0);
+    /** Standard format for the XPY denomination. */
+    public static final MonetaryFormat XPY = new MonetaryFormat().shift(0).minDecimals(2).repeatOptionalDecimals(2, 2);
+    /** Standard format for the mXPY denomination. */
+    public static final MonetaryFormat MXPY = new MonetaryFormat().shift(3).minDecimals(2).optionalDecimals(1);
+    /** Standard format for the µXPY denomination. */
+    public static final MonetaryFormat UXPY = new MonetaryFormat().shift(6).minDecimals(0).optionalDecimals(0);
     /** Standard format for fiat amounts. */
     public static final MonetaryFormat FIAT = new MonetaryFormat().shift(0).minDecimals(2).repeatOptionalDecimals(2, 1);
     /** Currency code for base 1 Paycoin. */
-    public static final String CODE_PPC = "PPC";
+    public static final String CODE_XPY = "XPY";
     /** Currency code for base 1/1000 Paycoin. */
-    public static final String CODE_MPPC = "mPPC";
+    public static final String CODE_MXPY = "mXPY";
     /** Currency code for base 1/1000000 Paycoin. */
-    public static final String CODE_UPPC = "µPPC";
+    public static final String CODE_UXPY = "µXPY";
 
     private final char negativeSign;
     private final char positiveSign;
@@ -190,7 +190,7 @@ public final class MonetaryFormat {
     }
 
     /**
-     * Set number of digits to shift the decimal separator to the right, coming from the standard PPC notation that was
+     * Set number of digits to shift the decimal separator to the right, coming from the standard XPY notation that was
      * common pre-2014. Note this will change the currency code if enabled.
      */
     public MonetaryFormat shift(int shift) {
@@ -299,9 +299,9 @@ public final class MonetaryFormat {
         this.shift = 0;
         this.roundingMode = RoundingMode.HALF_UP;
         this.codes = new HashMap<Integer, String>();
-        this.codes.put(0, CODE_PPC);
-        this.codes.put(3, CODE_MPPC);
-        this.codes.put(6, CODE_UPPC);
+        this.codes.put(0, CODE_XPY);
+        this.codes.put(3, CODE_MXPY);
+        this.codes.put(6, CODE_UXPY);
         this.codeSeparator = ' ';
         this.codePrefixed = true;
     }

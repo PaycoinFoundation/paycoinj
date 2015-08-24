@@ -262,7 +262,7 @@ public class PaycoinURI {
 
     /**
      * @return The amount name encoded using a pure integer value based at
-     *         10,000,000 units is 1 PPC. May be null if no amount is specified
+     *         10,000,000 units is 1 XPY. May be null if no amount is specified
      */
     public Coin getAmount() {
         return (Coin) parameterMap.get(FIELD_AMOUNT);

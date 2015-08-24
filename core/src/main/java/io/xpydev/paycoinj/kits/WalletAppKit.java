@@ -48,7 +48,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 /**
- * <p>Utility class that wraps the boilerplate needed to set up a new SPV peercoinj app. Instantiate it with a directory
+ * <p>Utility class that wraps the boilerplate needed to set up a new SPV paycoinj app. Instantiate it with a directory
  * and file prefix, optionally configure a few things, then use startAsync and optionally awaitRunning. The object will
  * construct and configure a {@link BlockChain}, {@link SPVBlockStore}, {@link Wallet} and {@link PeerGroup}. Depending
  * on the value of the blockingStartup property, startup will be considered complete once the block chain has fully
@@ -60,8 +60,8 @@ import static com.google.common.base.Preconditions.checkState;
  * access the objects this class creates until startup is complete.</p>
  *
  * <p>The asynchronous design of this class may seem puzzling (just use {@link #awaitRunning()} if you don't want that).
- * It is to make it easier to fit peercoinj into GUI apps, which require a high degree of responsiveness on their main
- * thread which handles all the animation and user interaction. Even when blockingStart is false, initializing peercoinj
+ * It is to make it easier to fit paycoinj into GUI apps, which require a high degree of responsiveness on their main
+ * thread which handles all the animation and user interaction. Even when blockingStart is false, initializing paycoinj
  * means doing potentially blocking file IO, generating keys and other potentially intensive operations. By running it
  * on a background thread, there's no risk of accidentally causing UI lag.</p>
  *
