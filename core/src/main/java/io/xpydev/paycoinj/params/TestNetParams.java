@@ -31,7 +31,7 @@ public class TestNetParams extends NetworkParameters {
         interval = INTERVAL;
         targetTimespan = TARGET_TIMESPAN;
         maxTarget = Utils.decodeCompactBits(0x200fffffL);
-        dumpedPrivateKeyHeader = 183;
+        dumpedPrivateKeyHeader = 239;
         addressHeader = 111;
         p2shHeader = 196;
         acceptableAddressCodes = new int[] { addressHeader, p2shHeader };
