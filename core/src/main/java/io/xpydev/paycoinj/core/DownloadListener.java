@@ -61,7 +61,7 @@ public class DownloadListener extends AbstractPeerEventListener {
             done.release();
         }
 
-        if (blocksLeft < 0 || originalBlocksLeft <= 0)
+        if (blocksLeft <= 0 || originalBlocksLeft <= 0)
             return;
 
         double pct = 100.0 - (100.0 * (blocksLeft / (double) originalBlocksLeft));
