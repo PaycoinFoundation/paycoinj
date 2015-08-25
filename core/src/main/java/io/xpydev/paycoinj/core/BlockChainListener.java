@@ -69,7 +69,7 @@ public interface BlockChainListener {
     void receiveFromBlock(Transaction tx, StoredBlock block,
                           BlockChain.NewBlockType blockType,
                           int relativityOffset) throws VerificationException;
-    
+
     /**
      * <p>Called by the {@link BlockChain} when we receive a new {@link FilteredBlock} that contains the given
      * transaction hash in its merkle tree.</p>
