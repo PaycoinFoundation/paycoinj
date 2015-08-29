@@ -21,6 +21,7 @@ import io.xpydev.paycoinj.script.Script;
 import io.xpydev.paycoinj.script.Script.VerifyFlag;
 import io.xpydev.paycoinj.store.BlockStoreException;
 import io.xpydev.paycoinj.store.FullPrunedBlockStore;
+import io.xpydev.paycoinj.utils.DaemonThreadFactory;
 import io.xpydev.paycoinj.store.ValidHashStore;
 
 import org.slf4j.Logger;
@@ -123,7 +124,8 @@ public class FullPrunedBlockChain extends AbstractBlockChain {
     //TODO: Remove lots of duplicated code in the two connectTransactions
 
     // TODO: execute in order of largest transaction (by input count) first
-    ExecutorService scriptVerificationExecutor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+    ExecutorService scriptVerificationExecutor = Executors.newFixedThreadPool(
+            Runtime.getRuntime().availableProcessors(), new DaemonThreadFactory());
 
     /** A job submitted to the executor which verifies signatures. */
     private static class Verifier implements Callable<VerificationException> {
