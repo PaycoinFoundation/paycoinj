@@ -70,6 +70,7 @@ public class TestNetParams extends NetworkParameters {
         dnsSeeds = new String[] {
                 "tseed.paycoin.com"
         };
+        addrSeeds = null;
     }
 
     private static TestNetParams instance;
