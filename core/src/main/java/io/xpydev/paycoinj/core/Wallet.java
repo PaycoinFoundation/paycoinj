@@ -1592,7 +1592,6 @@ public class Wallet extends BaseTaggableObject implements Serializable, BlockCha
      * <p>Note that if the tx has inputs containing one of our keys, but the connected transaction is not in the wallet,
      * it will not be considered relevant.</p>
      */
-    @Override
     public boolean isTransactionRelevant(Transaction tx) throws ScriptException {
         lock.lock();
         try {
@@ -1659,6 +1658,8 @@ public class Wallet extends BaseTaggableObject implements Serializable, BlockCha
                                  int relativityOffset) throws VerificationException {
         lock.lock();
         try {
+            if (!isTransactionRelevant(tx))
+                return;
             receive(tx, block, blockType, relativityOffset);
         } finally {
             lock.unlock();
@@ -1672,6 +1673,7 @@ public class Wallet extends BaseTaggableObject implements Serializable, BlockCha
                          int relativityOffset) throws VerificationException {
         // Runs in a peer thread.
         checkState(lock.isHeldByCurrentThread());
+
         Coin prevBalance = getBalance();
         Sha256Hash txHash = tx.getHash();
         boolean bestChain = blockType == BlockChain.NewBlockType.BEST_CHAIN;
