@@ -30,11 +30,15 @@ import org.spongycastle.crypto.digests.RIPEMD160Digest;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
@@ -60,6 +64,8 @@ public class Utils {
     /** The string that prefixes all text messages signed using Paycoin keys. */
     public static final String Paycoin_SIGNED_MESSAGE_HEADER = "Paycoin Signed Message:\n";
     public static final byte[] Paycoin_SIGNED_MESSAGE_HEADER_BYTES = Paycoin_SIGNED_MESSAGE_HEADER.getBytes(Charsets.UTF_8);
+
+    private static final Joiner SPACE_JOINER = Joiner.on(" ");
 
     private static BlockingQueue<Boolean> mockSleepQueue;
 
@@ -443,6 +449,40 @@ public class Utils {
         return currentTimeMillis() / 1000;
     }
 
+    private static final TimeZone UTC = TimeZone.getTimeZone("UTC");
+
+    /**
+     * Formats a given date+time value to an ISO 8601 string.
+     * @param dateTime value to format, as a Date
+     */
+    public static String dateTimeFormat(Date dateTime) {
+        DateFormat iso8601 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
+        iso8601.setTimeZone(UTC);
+        return iso8601.format(dateTime);
+    }
+
+    /**
+     * Formats a given date+time value to an ISO 8601 string.
+     * @param dateTime value to format, unix time (ms)
+     */
+    public static String dateTimeFormat(long dateTime) {
+        DateFormat iso8601 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
+        iso8601.setTimeZone(UTC);
+        return iso8601.format(dateTime);
+    }
+
+    /**
+     * Returns a string containing the string representation of the given items,
+     * delimited by a single space character.
+     *
+     * @param items the items to join
+     * @param <T> the item type
+     * @return the joined space-delimited string
+     */
+    public static <T> String join(Iterable<T> items) {
+        return SPACE_JOINER.join(items);
+    }
+
     public static byte[] copyOf(byte[] in, int length) {
         byte[] out = new byte[length];
         System.arraycopy(in, 0, out, 0, Math.min(length, in.length));
@@ -456,6 +496,44 @@ public class Utils {
         byte[] result = Arrays.copyOf(bytes, bytes.length + 1);
         result[result.length - 1] = b;
         return result;
+    }
+
+    /**
+     * Constructs a new String by decoding the given bytes using the specified charset.
+     * <p>
+     * This is a convenience method which wraps the checked exception with a RuntimeException.
+     * The exception can never occur given the charsets
+     * US-ASCII, ISO-8859-1, UTF-8, UTF-16, UTF-16LE or UTF-16BE.
+     *
+     * @param bytes the bytes to be decoded into characters
+     * @param charsetName the name of a supported {@linkplain java.nio.charset.Charset charset}
+     * @return the decoded String
+     */
+    public static String toString(byte[] bytes, String charsetName) {
+        try {
+            return new String(bytes, charsetName);
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Encodes the given string into a sequence of bytes using the named charset.
+     * <p>
+     * This is a convenience method which wraps the checked exception with a RuntimeException.
+     * The exception can never occur given the charsets
+     * US-ASCII, ISO-8859-1, UTF-8, UTF-16, UTF-16LE or UTF-16BE.
+     *
+     * @param str the string to encode into bytes
+     * @param charsetName the name of a supported {@linkplain java.nio.charset.Charset charset}
+     * @return the encoded bytes
+     */
+    public static byte[] toBytes(CharSequence str, String charsetName) {
+        try {
+            return str.toString().getBytes(charsetName);
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -550,9 +628,13 @@ public class Utils {
         }
     }
 
+    private static int isAndroid = -1;
     public static boolean isAndroidRuntime() {
+        if (isAndroid == -1) {
         final String runtime = System.getProperty("java.runtime.name");
-        return runtime != null && runtime.equals("Android Runtime");
+            isAndroid = (runtime != null && runtime.equals("Android Runtime")) ? 1 : 0;
+        }
+        return isAndroid == 1;
     }
 
     private static class Pair implements Comparable<Pair> {
@@ -602,4 +684,22 @@ public class Utils {
         return Joiner.on('\n').join(lines);
     }
 
+    // Can't use Closeable here because it's Java 7 only and Android devices only got that with KitKat.
+    public static InputStream closeUnchecked(InputStream stream) {
+        try {
+            stream.close();
+            return stream;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static OutputStream closeUnchecked(OutputStream stream) {
+        try {
+            stream.close();
+            return stream;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
