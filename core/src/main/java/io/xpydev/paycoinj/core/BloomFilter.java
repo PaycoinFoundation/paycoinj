@@ -34,7 +34,7 @@ import static java.lang.Math.*;
  * <p>A Bloom filter is a probabilistic data structure which can be sent to another client so that it can avoid
  * sending us transactions that aren't relevant to our set of keys. This allows for significantly more efficient
  * use of available network bandwidth and CPU time.</p>
- * 
+ *
  * <p>Because a Bloom filter is probabilistic, it has a configurable false positive rate. So the filter will sometimes
  * match transactions that weren't inserted into it, but it will never fail to match transactions that were. This is
  * a useful privacy feature - if you have spare bandwidth the false positive rate can be increased so the remote peer
@@ -49,7 +49,7 @@ public class BloomFilter extends Message {
         /** Only adds outpoints to the filter if the output is a pay-to-pubkey/pay-to-multisig script */
         UPDATE_P2PUBKEY_ONLY //2
     }
-    
+
     private byte[] data;
     private long hashFuncs;
     private long nTweak;
@@ -67,22 +67,22 @@ public class BloomFilter extends Message {
     public BloomFilter(NetworkParameters params, byte[] payloadBytes) throws ProtocolException {
         super(params, payloadBytes, 0);
     }
-    
+
     /**
      * Constructs a filter with the given parameters which is updated on pay2pubkey outputs only.
      */
     public BloomFilter(int elements, double falsePositiveRate, long randomNonce) {
         this(elements, falsePositiveRate, randomNonce, BloomUpdate.UPDATE_P2PUBKEY_ONLY);
     }
-    
+
     /**
      * <p>Constructs a new Bloom Filter which will provide approximately the given false positive rate when the given
      * number of elements have been inserted. If the filter would otherwise be larger than the maximum allowed size,
      * it will be automatically downsized to the maximum size.</p>
-     * 
+     *
      * <p>To check the theoretical false positive rate of a given filter, use
      * {@link BloomFilter#getFalsePositiveRate(int)}.</p>
-     * 
+     *
      * <p>The anonymity of which coins are yours to any peer which you send a BloomFilter to is controlled by the
      * false positive rate. For reference, as of block 187,000, the total number of addresses used in the chain was
      * roughly 4.5 million. Thus, if you use a false positive rate of 0.001 (0.1%), there will be, on average, 4,500
@@ -90,15 +90,15 @@ public class BloomFilter extends Message {
      * which are not actually yours. Keep in mind that a remote node can do a pretty good job estimating the order of
      * magnitude of the false positive rate of a given filter you provide it when considering the anonymity of a given
      * filter.</p>
-     * 
+     *
      * <p>In order for filtered block download to function efficiently, the number of matched transactions in any given
      * block should be less than (with some headroom) the maximum size of the MemoryPool used by the Peer
      * doing the downloading (default is {@link MemoryPool#MAX_SIZE}). See the comment in processBlock(FilteredBlock)
      * for more information on this restriction.</p>
-     * 
+     *
      * <p>randomNonce is a tweak for the hash function used to prevent some theoretical DoS attacks.
      * It should be a random value, however secureness of the random value is of no great consequence.</p>
-     * 
+     *
      * <p>updateFlag is used to control filter behaviour on the server (remote node) side when it encounters a hit.
      * See {@link io.xpydev.paycoinj.core.BloomFilter.BloomUpdate} for a brief description of each mode. The purpose
      * of this flag is to reduce network round-tripping and avoid over-dirtying the filter for the most common
@@ -116,7 +116,7 @@ public class BloomFilter extends Message {
         this.nTweak = randomNonce;
         this.nFlags = (byte)(0xff & updateFlag.ordinal());
     }
-    
+
     /**
      * Returns the theoretical false positive rate of this filter if were to contain the given number of elements.
      */
@@ -141,7 +141,7 @@ public class BloomFilter extends Message {
         nFlags = readBytes(1)[0];
         length = cursor - offset;
     }
-    
+
     /**
      * Serializes this message to the provided stream. If you just want the raw bytes use paycoinSerialize().
      */
@@ -180,7 +180,7 @@ public class BloomFilter extends Message {
                   ((object[i+1] & 0xFF) << 8) |
                   ((object[i+2] & 0xFF) << 16) |
                   ((object[i+3] & 0xFF) << 24);
-            
+
             k1 *= c1;
             k1 = rotateLeft32(k1, 15);
             k1 *= c2;
@@ -189,7 +189,7 @@ public class BloomFilter extends Message {
             h1 = rotateLeft32(h1, 13);
             h1 = h1*5+0xe6546b64;
         }
-        
+
         int k1 = 0;
         switch(object.length & 3)
         {
@@ -215,10 +215,10 @@ public class BloomFilter extends Message {
         h1 ^= h1 >>> 13;
         h1 *= 0xc2b2ae35;
         h1 ^= h1 >>> 16;
-        
+
         return (int)((h1&0xFFFFFFFFL) % (data.length * 8));
     }
-    
+
     /**
      * Returns true if the given object matches the filter either because it was inserted, or because we have a
      * false-positive.
@@ -342,7 +342,7 @@ public class BloomFilter extends Message {
         }
         return found;
     }
-    
+
     @Override
     public synchronized boolean equals(Object o) {
         if (this == o) return true;

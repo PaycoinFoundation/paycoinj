@@ -40,4 +40,3 @@ public interface TransactionBag {
     /** Returns transactions from a specific pool. */
     public Map<Sha256Hash, Transaction> getTransactionPool(WalletTransaction.Pool pool);
 }
-

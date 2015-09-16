@@ -16,7 +16,7 @@
 /*
  * Authors: Jim Burton, Miron Cuperman
  */
- 
+
 /* Notes:
  * - Endianness: All byte arrays that represent numbers (such as hashes and private keys) are Big Endian
  * - To regenerate after editing, run: mvn generate-sources -DupdateProtobuf
@@ -212,13 +212,13 @@ message TransactionConfidence {
 message Transaction {
   /**
    * This is a bitfield oriented enum, with the following bits:
-   * 
+   *
    * bit 0 - spent
    * bit 1 - appears in alt chain
    * bit 2 - appears in best chain
    * bit 3 - double-spent
    * bit 4 - pending (we would like the tx to go into the best chain)
-   * 
+   *
    * Not all combinations are interesting, just the ones actually used in the enum.
    */
   enum Pool {
@@ -356,7 +356,8 @@ message Wallet {
   optional ScryptParameters encryption_parameters = 6;
 
   // The version number of the wallet - used to detect wallets that were produced in the future
-  // (i.e the wallet may contain some future format this protobuf/ code does not know about)
+  // (i.e. the wallet may contain some future format this protobuf or parser code does not know about).
+  // A version that's higher than the default is considered from the future.
   optional int32 version = 7 [default = 1];
 
   // deprecated - do not recycle this numeric identifier

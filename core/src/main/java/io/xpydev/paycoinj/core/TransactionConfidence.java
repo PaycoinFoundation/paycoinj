@@ -102,12 +102,12 @@ public class TransactionConfidence implements Serializable {
          * If a transaction hasn't been broadcast yet, or there's no record of it, its confidence is UNKNOWN.
          */
         UNKNOWN(0);
-        
+
         private int value;
         ConfidenceType(int value) {
             this.value = value;
         }
-        
+
         public int getValue() {
             return value;
         }
@@ -239,7 +239,7 @@ public class TransactionConfidence implements Serializable {
     }
 
     /**
-     * Called by other objects in the system, like a {@link Wallet}, when new information about the confidence of a 
+     * Called by other objects in the system, like a {@link Wallet}, when new information about the confidence of a
      * transaction becomes available.
      */
     public synchronized void setConfidenceType(ConfidenceType confidenceType) {
@@ -336,7 +336,7 @@ public class TransactionConfidence implements Serializable {
      * (Satoshi) implementation considers a transaction impractical to reverse after 6 blocks, but as of EOY 2011 network
      * security is high enough that often only one block is considered enough even for high value transactions. For low
      * value transactions like songs, or other cheap items, no blocks at all may be necessary.</p>
-     *     
+     *
      * <p>If the transaction appears in the top block, the depth is one. If it's anything else (pending, dead, unknown)
      * the depth is zero.</p>
      */

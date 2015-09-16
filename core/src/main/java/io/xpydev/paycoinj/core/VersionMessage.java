@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * A VersionMessage holds information exchanged during connection setup with another peer. Most of the fields are not
- * particularly interesting. The subVer field, since BIP 14, acts as a User-Agent string would. You can and should 
+ * particularly interesting. The subVer field, since BIP 14, acts as a User-Agent string would. You can and should
  * append to or change the subVer for your own software so other implementations can identify it, and you can look at
  * the subVer field received from other nodes to see what they are running. <p>
  *
@@ -88,7 +88,7 @@ public class VersionMessage extends Message {
     // It doesn't really make sense to ever lazily parse a version message or to retain the backing bytes.
     // If you're receiving this on the wire you need to check the protocol version and it will never need to be sent
     // back down the wire.
-    
+
     public VersionMessage(NetworkParameters params, int newBestHeight) {
         super(params);
         clientVersion = NetworkParameters.PROTOCOL_VERSION;
@@ -177,7 +177,7 @@ public class VersionMessage extends Message {
             throw new RuntimeException(e);  // Can't happen.
         }
         // Next up is the "local host nonce", this is to detect the case of connecting
-        // back to yourself. We don't care about this as we won't be accepting inbound 
+        // back to yourself. We don't care about this as we won't be accepting inbound
         // connections.
         Utils.uint32ToByteStreamLE(0, buf);
         Utils.uint32ToByteStreamLE(0, buf);
@@ -190,7 +190,7 @@ public class VersionMessage extends Message {
         buf.write(relayTxesBeforeFilter ? 1 : 0);
         log.debug("serialized size: {}");
     }
-    
+
     @Override
     public byte[] unsafePaycoinSerialize() {
         // 1st attempt to use a cached array.

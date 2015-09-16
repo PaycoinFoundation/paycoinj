@@ -85,14 +85,14 @@ public abstract class Message implements Serializable {
     }
 
     /**
-     * 
+     *
      * @param params NetworkParameters object.
      * @param payload Paycoin protocol formatted byte array containing message content.
      * @param offset The location of the first payload byte within the array.
      * @param protocolVersion Paycoin protocol version.
      * @param parseLazy Whether to perform a full parse immediately or delay until a read is requested.
-     * @param parseRetain Whether to retain the backing byte array for quick reserialization.  
-     * If true and the backing byte array is invalidated due to modification of a field then 
+     * @param parseRetain Whether to retain the backing byte array for quick reserialization.
+     * If true and the backing byte array is invalidated due to modification of a field then
      * the cached payload may be repopulated and retained if the message is serialized again in the future.
      * @param length The length of message if known.  Usually this is provided when deserializing of the wire
      * as the length will be provided as part of the header.  If unknown then set to Message.UNKNOWN_LENGTH
@@ -118,11 +118,11 @@ public abstract class Message implements Serializable {
             checkState(false, "Length field has not been set in constructor for %s after %s parse. " +
                               "Refer to Message.parseLite() for detail of required Length field contract.",
                        getClass().getSimpleName(), parseLazy ? "lite" : "full");
-        
+
         if (SELF_CHECK) {
             selfCheck(payload, offset);
         }
-        
+
         if (parseRetain || !parsed)
             return;
         this.payload = null;
@@ -150,8 +150,8 @@ public abstract class Message implements Serializable {
     }
 
     // These methods handle the serialization/deserialization using the custom Paycoin protocol.
-    // It's somewhat painful to work with in Java, so some of these objects support a second 
-    // serialization mechanism - the standard Java serialization system. This is used when things 
+    // It's somewhat painful to work with in Java, so some of these objects support a second
+    // serialization mechanism - the standard Java serialization system. This is used when things
     // are serialized to the wallet.
     abstract void parse() throws ProtocolException;
 
@@ -472,7 +472,7 @@ public abstract class Message implements Serializable {
             throw new ProtocolException(e);
         }
     }
-    
+
     byte[] readByteArray() throws ProtocolException {
         long len = readVarInt();
         return readBytes((int)len);
@@ -503,7 +503,7 @@ public abstract class Message implements Serializable {
             throw new ProtocolException(e);
         }
     }
-    
+
     boolean hasMoreBytes() {
         return cursor < payload.length;
     }

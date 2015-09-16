@@ -28,7 +28,7 @@ public class WrongNetworkException extends AddressFormatException {
     public int verCode;
     /** The list of acceptable versions that were expected given the addresses network parameters. */
     public int[] acceptableVersions;
-    
+
     public WrongNetworkException(int verCode, int[] acceptableVersions) {
         super("Version code of address did not match acceptable versions for network: " + verCode + " not in " +
           Arrays.toString(acceptableVersions));

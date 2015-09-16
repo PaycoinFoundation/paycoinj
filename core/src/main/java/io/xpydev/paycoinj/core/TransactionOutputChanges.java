@@ -31,12 +31,12 @@ import java.util.List;
 public class TransactionOutputChanges {
     public final List<StoredTransactionOutput> txOutsCreated;
     public final List<StoredTransactionOutput> txOutsSpent;
-    
+
     public TransactionOutputChanges(List<StoredTransactionOutput> txOutsCreated, List<StoredTransactionOutput> txOutsSpent) {
         this.txOutsCreated = txOutsCreated;
         this.txOutsSpent = txOutsSpent;
     }
-    
+
     public TransactionOutputChanges(InputStream in) throws IOException {
         int numOutsCreated = ((in.read() & 0xFF) << 0) |
                              ((in.read() & 0xFF) << 8) |
@@ -45,7 +45,7 @@ public class TransactionOutputChanges {
         txOutsCreated = new LinkedList<StoredTransactionOutput>();
         for (int i = 0; i < numOutsCreated; i++)
             txOutsCreated.add(new StoredTransactionOutput(in));
-        
+
         int numOutsSpent = ((in.read() & 0xFF) << 0) |
                            ((in.read() & 0xFF) << 8) |
                            ((in.read() & 0xFF) << 16) |
@@ -64,7 +64,7 @@ public class TransactionOutputChanges {
         for (StoredTransactionOutput output : txOutsCreated) {
             output.serializeToStream(bos);
         }
-        
+
         int numOutsSpent = txOutsSpent.size();
         bos.write(0xFF & (numOutsSpent >> 0));
         bos.write(0xFF & (numOutsSpent >> 8));

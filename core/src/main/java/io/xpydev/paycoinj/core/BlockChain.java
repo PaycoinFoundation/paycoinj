@@ -98,7 +98,7 @@ public class BlockChain extends AbstractBlockChain {
             lock.unlock();
         }
     }
-    
+
     @Override
     protected StoredBlock addToBlockStore(StoredBlock storedPrev, Block blockHeader)
             throws BlockStoreException, VerificationException {

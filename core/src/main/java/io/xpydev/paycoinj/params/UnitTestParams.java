@@ -43,6 +43,7 @@ public class UnitTestParams extends NetworkParameters {
         targetTimespan = 200000000;  // 6 years. Just a very big number.
         spendableCoinbaseDepth = 5;
         dnsSeeds = null;
+        addrSeeds = null;
     }
 
     private static UnitTestParams instance;

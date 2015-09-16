@@ -85,7 +85,7 @@ public class Block extends Message {
 
     /** If null, it means this object holds only the headers. */
     public List<Transaction> transactions;
-    
+
     //Paycoin
     private byte[] blockSig;
 
@@ -97,7 +97,7 @@ public class Block extends Message {
 
     private transient boolean headerBytesValid;
     private transient boolean transactionBytesValid;
-    
+
     // Blocks can be encoded in a way that will use more bytes than is optimal (due to VarInts having multiple encodings)
     // MAX_BLOCK_SIZE must be compared to the optimal encoding, not the actual encoding, so when parsing, we keep track
     // of the size of the ideal encoding in addition to the actual message size (which Message needs)
@@ -113,9 +113,9 @@ public class Block extends Message {
         prevBlockHash = Sha256Hash.ZERO_HASH;
 
         length = 80;
-        
+
         blockSig = null;
-        
+
     }
 
     /** Constructs a block object from the Paycoin wire format. */
@@ -127,8 +127,8 @@ public class Block extends Message {
      * Contruct a block object from the Paycoin wire format.
      * @param params NetworkParameters object.
      * @param parseLazy Whether to perform a full parse immediately or delay until a read is requested.
-     * @param parseRetain Whether to retain the backing byte array for quick reserialization.  
-     * If true and the backing byte array is invalidated due to modification of a field then 
+     * @param parseRetain Whether to retain the backing byte array for quick reserialization.
+     * If true and the backing byte array is invalidated due to modification of a field then
      * the cached bytes may be repopulated and retained if the message is serialized again in the future.
      * @param length The length of message if known.  Usually this is provided when deserializing of the wire
      * as the length will be provided as part of the header.  If unknown then set to Message.UNKNOWN_LENGTH
@@ -218,13 +218,13 @@ public class Block extends Message {
         // If this is a genuine lazy parse then length must have been provided to the constructor.
         transactionsParsed = true;
         transactionBytesValid = parseRetain;
-        
+
 		if (cursor != length && !getHashAsString().equals("3cdd9c2facce405f5cc220fb21a10e493041451c463a22e1ff6fe903fc5769fc")) {
 			// Obtain signature
 			int sigLen = (int) readVarInt();
 			blockSig = readBytes(sigLen);
 		}
-        
+
     }
 
     @Override
@@ -233,7 +233,7 @@ public class Block extends Message {
         parseTransactions();
         length = cursor - offset;
     }
-    
+
     public int getOptimalEncodingMessageSize() {
         if (optimalEncodingMessageSize != 0)
             return optimalEncodingMessageSize;
@@ -411,10 +411,10 @@ public class Block extends Message {
                 tx.paycoinSerialize(stream);
             }
         }
-        
+
         // Finally write block signature
-       
-       	if (blockSig != null) {	
+
+       	if (blockSig != null) {
             stream.write(new VarInt(blockSig.length).encode());
             stream.write(blockSig);
         }
@@ -650,7 +650,7 @@ public class Block extends Message {
 
     /** Returns true if the hash of the block is OK (lower than difficulty target). */
     private boolean checkProofOfWork(boolean throwException) throws VerificationException {
-        // Just trusting downloaded hashes 
+        // Just trusting downloaded hashes
         return true;
     }
 
