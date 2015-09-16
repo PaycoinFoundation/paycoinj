@@ -43,7 +43,7 @@ public interface WalletEventListener extends KeyChainEventListener {
 
     /**
      * This is called when a transaction is seen that sends coins <b>from</b> this wallet, either
-     * because it was broadcast across the network or because a block was received. This may at first glance seem 
+     * because it was broadcast across the network or because a block was received. This may at first glance seem
      * useless, because in the common case you already know about such transactions because you created them with
      * the Wallets createSend/sendCoins methods. However when you have a wallet containing only keys, and you wish
      * to replay the block chain to fill it with transactions, it's useful to find out when a transaction is discovered

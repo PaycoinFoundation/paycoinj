@@ -54,7 +54,7 @@ public class VarInt {
         }
         this.value = val;
     }
-    
+
     /**
      * Gets the number of bytes used to encode this originally if deserialized from a byte array.
      * Otherwise returns the minimum encoded size

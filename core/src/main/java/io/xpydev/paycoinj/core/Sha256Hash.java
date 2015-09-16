@@ -134,4 +134,3 @@ public class Sha256Hash implements Serializable, Comparable<Sha256Hash> {
     }
 
 }
-

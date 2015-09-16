@@ -61,11 +61,11 @@ public class PartialMerkleTree extends Message {
 
     // txids and internal hashes
     private List<Sha256Hash> hashes;
-    
+
     public PartialMerkleTree(NetworkParameters params, byte[] payloadBytes, int offset) throws ProtocolException {
         super(params, payloadBytes, offset);
     }
-    
+
     /**
      * Constructs a new PMT with the given bit set (little endian) and the raw list of hashes including internal hashes,
      * taking ownership of the list.
@@ -122,7 +122,7 @@ public class PartialMerkleTree extends Message {
 
         length = cursor - offset;
     }
-    
+
     // Based on CPartialMerkleTree::TraverseAndBuild in Paycoin-qt.
     private static void traverseAndBuild(int height, int pos, List<Sha256Hash> allLeafHashes, byte[] includeBits,
                                          List<Boolean> matchedChildBits, List<Sha256Hash> resultHashes) {
@@ -169,18 +169,18 @@ public class PartialMerkleTree extends Message {
 
     @Override
     protected void parseLite() {
-        
+
     }
-    
+
     // helper function to efficiently calculate the number of nodes at given height in the merkle tree
     private static int getTreeWidth(int transactionCount, int height) {
         return (transactionCount + (1 << height) - 1) >> height;
     }
-    
+
     private static class ValuesUsed {
         public int bitsUsed = 0, hashesUsed = 0;
     }
-    
+
     // recursive function that traverses tree nodes, consuming the bits and hashes produced by TraverseAndBuild.
     // it returns the hash of the respective node.
     private Sha256Hash recursiveExtractHashes(int height, int pos, ValuesUsed used, List<Sha256Hash> matchedHashes) throws VerificationException {
@@ -220,10 +220,10 @@ public class PartialMerkleTree extends Message {
     /**
      * Extracts tx hashes that are in this merkle tree
      * and returns the merkle root of this tree.
-     * 
+     *
      * The returned root should be checked against the
      * merkle root contained in the block header for security.
-     * 
+     *
      * @param matchedHashes A list which will contain the matched txn (will be cleared)
      *                      Required to be a LinkedHashSet in order to retain order or transactions in the block
      * @return the merkle root of this merkle tree
@@ -231,7 +231,7 @@ public class PartialMerkleTree extends Message {
      */
     public Sha256Hash getTxnHashAndMerkleRoot(List<Sha256Hash> matchedHashes) throws VerificationException {
         matchedHashes.clear();
-        
+
         // An empty set will not work
         if (transactionCount == 0)
             throw new VerificationException("Got a CPartialMerkleTree with 0 transactions");
@@ -256,7 +256,7 @@ public class PartialMerkleTree extends Message {
                 // verify that all hashes were consumed
                 used.hashesUsed != hashes.size())
             throw new VerificationException("Got a CPartialMerkleTree that didn't need all the data it provided");
-        
+
         return merkleRoot;
     }
 
@@ -296,4 +296,3 @@ public class PartialMerkleTree extends Message {
     }
 
 }
-

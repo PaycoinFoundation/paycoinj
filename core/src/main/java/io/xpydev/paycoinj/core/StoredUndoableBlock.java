@@ -29,25 +29,25 @@ import java.util.List;
  */
 public class StoredUndoableBlock implements Serializable {
     private static final long serialVersionUID = 5127353027086786117L;
-    
+
     Sha256Hash blockHash;
-    
+
     // Only one of either txOutChanges or transactions will be set
     private TransactionOutputChanges txOutChanges;
     private List<Transaction> transactions;
-    
+
     public StoredUndoableBlock(Sha256Hash hash, TransactionOutputChanges txOutChanges) {
         this.blockHash = hash;
         this.transactions = null;
         this.txOutChanges = txOutChanges;
     }
-    
+
     public StoredUndoableBlock(Sha256Hash hash, List<Transaction> transactions) {
         this.blockHash = hash;
         this.txOutChanges = null;
         this.transactions = transactions;
     }
-    
+
     /**
      * Get the transaction output changes if they have been calculated, otherwise null.
      * Only one of this and getTransactions() will return a non-null value.
@@ -55,7 +55,7 @@ public class StoredUndoableBlock implements Serializable {
     public TransactionOutputChanges getTxOutChanges() {
         return txOutChanges;
     }
-    
+
     /**
      * Get the full list of transactions if it is stored, otherwise null.
      * Only one of this and getTxOutChanges() will return a non-null value.
@@ -63,7 +63,7 @@ public class StoredUndoableBlock implements Serializable {
     public List<Transaction> getTransactions() {
         return transactions;
     }
-    
+
     /**
      * Get the hash of the represented block
      */

@@ -272,4 +272,3 @@ public final class Coin implements Monetary, Comparable<Coin>, Serializable {
         return this.value > other.value ? 1 : -1;
     }
 }
-

@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/PaycoinFoundation/paycoinj.svg?branch=master)](https://travis-ci.org/PaycoinFoundation/paycoinj)
+
 ### Welcome to paycoinj
 
 The paycoinj library is a Java implementation of the Paycoin protocol, which allows it to maintain a wallet and send/receive transactions without needing a local copy of Paycoin Core. It comes with full documentation and some example apps showing how to use it. paycoinj uses a central server to download block hashes for verification.

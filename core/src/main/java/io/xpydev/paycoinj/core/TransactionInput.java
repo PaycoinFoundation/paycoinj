@@ -113,8 +113,8 @@ public class TransactionInput extends ChildMessage implements Serializable {
      * @param payload Paycoin protocol formatted byte array containing message content.
      * @param offset The location of the first payload byte within the array.
      * @param parseLazy Whether to perform a full parse immediately or delay until a read is requested.
-     * @param parseRetain Whether to retain the backing byte array for quick reserialization.  
-     * If true and the backing byte array is invalidated due to modification of a field then 
+     * @param parseRetain Whether to retain the backing byte array for quick reserialization.
+     * If true and the backing byte array is invalidated due to modification of a field then
      * the cached bytes may be repopulated and retained if the message is serialized again in the future.
      * as the length will be provided as part of the header.  If unknown then set to Message.UNKNOWN_LENGTH
      * @throws ProtocolException
@@ -223,7 +223,7 @@ public class TransactionInput extends ChildMessage implements Serializable {
     }
 
     /**
-     * @return The previous output transaction reference, as an OutPoint structure.  This contains the 
+     * @return The previous output transaction reference, as an OutPoint structure.  This contains the
      * data needed to connect to the output of the transaction we're gathering coins from.
      */
     public TransactionOutPoint getOutpoint() {
@@ -491,4 +491,3 @@ public class TransactionInput extends ChildMessage implements Serializable {
     }
 
 }
-

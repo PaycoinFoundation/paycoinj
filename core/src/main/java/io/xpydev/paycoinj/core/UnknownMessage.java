@@ -32,4 +32,3 @@ public class UnknownMessage extends EmptyMessage {
     }
 
 }
-
