@@ -21,7 +21,7 @@
     <parent>
         <groupId>io.xpydev</groupId>
         <artifactId>paycoinj-parent</artifactId>
-        <version>0.1.0</version>
+        <version>0.3.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -44,7 +44,7 @@
         <dependency>
             <groupId>io.xpydev</groupId>
             <artifactId>paycoinj</artifactId>
-            <version>0.1.0</version>
+            <version>0.3.1</version>
         </dependency>
     </dependencies>
 </project>
