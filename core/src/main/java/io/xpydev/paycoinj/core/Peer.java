@@ -342,7 +342,7 @@ public class Peer extends PeerSocketHandler {
             endFilteredBlock(currentFilteredBlock);
             currentFilteredBlock = null;
         }
-	
+
 	// If we have a block and we expected one then we reset the timeout for the next block.
 	blockResponseTimeout.processMessage(m);
 
@@ -860,15 +860,15 @@ public class Peer extends PeerSocketHandler {
         try {
             // Otherwise it's a block sent to us because the peer thought we needed it, so add it to the block chain.
             if (blockChain.add(m)) {
-		
+
                 log.info("block {} addded successfully: ", m.getHashAsString());
                 // The block was successfully linked into the chain. Notify the user of our progress.
                 invokeOnBlocksDownloaded(m);
-		
+
 		// Expect more responses if there are more blocks remaining
 		if (vPeerVersionMessage.bestHeight > checkNotNull(blockChain).getBestChainHeight())
 		    blockResponseTimeout.setTimeoutEnabled(true);
-		
+
             } else {
                 // This block is an orphan - we don't know how to get from it back to the genesis block yet. That
                 // must mean that there are blocks we are missing, so do another getblocks with a new block locator
@@ -1035,7 +1035,7 @@ public class Peer extends PeerSocketHandler {
         // since the time we first connected to the peer. However, it's weird and unexpected to receive a callback
         // with negative "blocks left" in this case, so we clamp to zero so the API user doesn't have to think about it.
         final int blocksLeft = Math.max(0, (int) vPeerVersionMessage.bestHeight - checkNotNull(blockChain).getBestChainHeight());
-	
+
         for (final ListenerRegistration<PeerEventListener> registration : eventListeners) {
             registration.executor.execute(new Runnable() {
                 @Override
@@ -1228,6 +1228,7 @@ public class Peer extends PeerSocketHandler {
      */
     public void setDownloadParameters(long secondsSinceEpoch, boolean useFilteredBlocks) {
     	// For peercoin we cannot use filtered blocks until the protocol has been upgraded
+        useFilteredBlocks = false;
         lock.lock();
         try {
             Preconditions.checkNotNull(blockChain);
@@ -1261,68 +1262,68 @@ public class Peer extends PeerSocketHandler {
     public void removeWallet(Wallet wallet) {
         wallets.remove(wallet);
     }
-    
+
     // Timeout for receiving headers or block response
-    
+
     static int blockTimeout = 10000;
-    
+
     class BlockTimeoutHandler extends AbstractTimeoutHandler {
 
 	boolean expectFull;
 	boolean hadSuccess = false;
-	
+
 	public void setSocketTimeout(boolean expectFull) {
-	    
+
 	    setSocketTimeout(blockTimeout);
 	    setTimeoutEnabled(true);
 	    this.expectFull = expectFull;
-	
+
 	}
-	
+
 	public void processMessage(Message m) {
-	    
+
 	    if ((expectFull && (m instanceof Block || m instanceof FilteredBlock))
 		    || (!expectFull && (m instanceof HeadersMessage))) {
-		
+
 		setTimeoutEnabled(false); // No timeout until we are ready for the next message
-		
+
 		if (!hadSuccess) {
-		    
+
 		    // As this is a success we should decrease the timeout so we progressively expect faster block times.
 		    blockTimeout *= 0.9;
 		    if (blockTimeout < 1000)
 			blockTimeout = 1000;
 
 		    hadSuccess = true;
-		    
+
 		}
-		
+
 	    }
-	    
+
 	}
-	
+
 	@Override
 	protected void timeoutOccurred() {
-	    
+
 	    // Need to download from a new peer! Close this one
 	    close();
-	    
+
 	    // Increase timeout gradually in case this is our fault
 	    blockTimeout *= 1.2;
 	    if (blockTimeout > 60000)
 		blockTimeout = 60000;
-	    
+
 	}
-	
+
     };
-    
-    BlockTimeoutHandler blockResponseTimeout = new BlockTimeoutHandler(); 
+
+    BlockTimeoutHandler blockResponseTimeout = new BlockTimeoutHandler();
 
     // Keep track of the last request we made to the peer in blockChainDownloadLocked so we can avoid redundant and harmful
     // getblocks requests.
     @GuardedBy("lock")
     private Sha256Hash lastGetBlocksBegin, lastGetBlocksEnd;
-    
+
     @GuardedBy("lock")
     private void blockChainDownloadLocked(Sha256Hash toHash) {
         checkState(lock.isHeldByCurrentThread());
