@@ -1228,6 +1228,7 @@ public class Peer extends PeerSocketHandler {
      */
     public void setDownloadParameters(long secondsSinceEpoch, boolean useFilteredBlocks) {
     	// For peercoin we cannot use filtered blocks until the protocol has been upgraded
+        useFilteredBlocks = false;
         lock.lock();
         try {
             Preconditions.checkNotNull(blockChain);
