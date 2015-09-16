@@ -19,7 +19,6 @@ package io.xpydev.paycoinj.core;
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
-import org.bitcoinj.core.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,6 +28,7 @@ import com.google.common.util.concurrent.SettableFuture;
 import io.xpydev.paycoinj.core.AbstractPeerEventListener;
 import io.xpydev.paycoinj.core.Block;
 import io.xpydev.paycoinj.core.Peer;
+import io.xpydev.paycoinj.core.Utils;
 
 /**
  * <p>
