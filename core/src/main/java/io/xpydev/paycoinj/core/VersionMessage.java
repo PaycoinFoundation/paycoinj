@@ -77,7 +77,7 @@ public class VersionMessage extends Message {
     public boolean relayTxesBeforeFilter;
 
     /** The version of this library release, as a string. */
-    public static final String PAYCOINJ_VERSION = "0.1.0";
+    public static final String PAYCOINJ_VERSION = "0.3.1";
     /** The value that is prepended to the subVer field of this application. */
     public static final String LIBRARY_SUBVER = "/paycoinJ:" + PAYCOINJ_VERSION + "/";
 
