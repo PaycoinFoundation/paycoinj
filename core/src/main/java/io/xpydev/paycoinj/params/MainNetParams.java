@@ -26,6 +26,7 @@ import static com.google.common.base.Preconditions.checkState;
  * Parameters for the main production network on which people trade goods and services.
  */
 public class MainNetParams extends NetworkParameters {
+    private static final long serialVersionUID = 1994314767223570084L;
     public MainNetParams() {
         super();
         interval = INTERVAL;
