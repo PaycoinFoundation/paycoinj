@@ -2041,7 +2041,7 @@ public class Wallet extends BaseTaggableObject implements Serializable, BlockCha
      * If the transactions outputs are all marked as spent, and it's in the unspent map, move it.
      * If the owned transactions outputs are not all marked as spent, and it's in the spent map, move it.
      */
-    private void maybeMovePool(Transaction tx, String context) {
+    public void maybeMovePool(Transaction tx, String context) {
         checkState(lock.isHeldByCurrentThread());
         if (tx.isEveryOwnedOutputSpent(this)) {
             // There's nothing left I can spend in this transaction.
