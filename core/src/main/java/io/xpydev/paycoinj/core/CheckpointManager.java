@@ -195,6 +195,10 @@ public class CheckpointManager {
         return checkpoints.size();
     }
 
+    public TreeMap<Long, StoredBlock> getCheckpoints() {
+        return checkpoints;
+    }
+    
     /** Returns a hash of the concatenated checkpoint data. */
     public Sha256Hash getDataHash() {
         return dataHash;
