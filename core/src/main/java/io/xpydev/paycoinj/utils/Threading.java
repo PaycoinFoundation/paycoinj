@@ -116,8 +116,8 @@ public class Threading {
         public void execute(Runnable command) {
             if (tasks.size() > 100) {
                 log.warn("User thread saturated, memory exhaustion may occur.");
-                log.warn("Check for deadlocked or slow event handlers. Sample tasks:");
-                for (Object task : tasks.toArray()) log.warn(task.toString());
+                log.warn("Check for deadlocked or slow event handlers. Sample tasks: {}", tasks);
+                // for (Object task : tasks.toArray()) log.warn(task.toString());
             }
             Uninterruptibles.putUninterruptibly(tasks, command);
         }
