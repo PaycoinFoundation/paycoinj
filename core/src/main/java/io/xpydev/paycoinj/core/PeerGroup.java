@@ -121,7 +121,7 @@ public class PeerGroup extends AbstractExecutionThreadService implements Transac
     // until we reach this count.
     @GuardedBy("lock") private int maxConnections;
     // Minimum protocol version we will allow ourselves to connect to: Do not require bloom filtering as it doesn't exist in Paycoin
-    private volatile int vMinRequiredProtocolVersion = 70003;
+    private volatile int vMinRequiredProtocolVersion = 70006;
 
     // Runs a background thread that we use for scheduling pings to our peers, so we can measure their performance
     // and network latency. We ping peers every pingIntervalMsec milliseconds.
@@ -202,6 +202,10 @@ public class PeerGroup extends AbstractExecutionThreadService implements Transac
             queueRecalc(false);
         }
 
+        @Override public void onScriptsChanged(Wallet wallet, java.util.List<Script> scripts, boolean isAddingScripts) {
+            queueRecalc(false);
+        }
+        
         @Override public void onKeysAdded(List<ECKey> keys) {
             queueRecalc(false);
         }

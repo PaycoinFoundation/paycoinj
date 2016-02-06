@@ -42,10 +42,12 @@ import static io.xpydev.paycoinj.core.Coin.*;
  * them, you are encouraged to call the static get() methods on each specific params class directly.</p>
  */
 public abstract class NetworkParameters implements Serializable {
+    private static final long serialVersionUID = 516551887248710642L;
+
     /**
      * The protocol version this library implements.
      */
-    public static final int PROTOCOL_VERSION = 70003;
+    public static final int PROTOCOL_VERSION = 70006;
 
     /**
      * The alert signing key.

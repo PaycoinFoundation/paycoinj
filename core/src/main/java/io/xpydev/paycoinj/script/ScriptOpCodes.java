@@ -161,6 +161,7 @@ public class ScriptOpCodes {
     public static final int OP_PRIMENODE20 = 0xc3;
     public static final int OP_PRIMENODE10 = 0xc4;
     public static final int OP_PRIMENODEP2 = 0xc5;
+    public static final int OP_MICROPRIME = 0xc6;
     
     // template matching params
     public static final int OP_SMALLINTEGER = 0xfa;
@@ -285,6 +286,7 @@ public class ScriptOpCodes {
         .put(OP_PRIMENODE20, "PRIMENODE20")
         .put(OP_PRIMENODE10, "PRIMENODE10")
         .put(OP_PRIMENODEP2, "PRIMENODEP2")
+        .put(OP_MICROPRIME, "OP_MICROPRIME")
         .put(OP_SMALLINTEGER, "SMALLINTEGER")
         .put(OP_PUBKEYS, "PUBKEYS")
         .put(OP_PUBKEYHASH, "PUBKEYHASH")
@@ -407,6 +409,7 @@ public class ScriptOpCodes {
         .put("PRIMENODE20", OP_PRIMENODE20)
         .put("PRIMENODE10", OP_PRIMENODE10)
         .put("PRIMENODEP2", OP_PRIMENODEP2)
+        .put("OP_MICROPRIME", OP_MICROPRIME)
         .put("SMALLINTEGER", OP_SMALLINTEGER)
         .put("PUBKEYS", OP_PUBKEYS)
         .put("PUBKEYHASH", OP_PUBKEYHASH)

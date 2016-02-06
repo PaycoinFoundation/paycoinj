@@ -300,7 +300,7 @@ public class Peer extends PeerSocketHandler {
 
     @Override
     public void connectionOpened() {
-        // Announce ourselves. This has to come first to connect to clients beyond v0.3.20.2 which wait to hear
+        // Announce ourselves. This has to come first to connect to clients beyond v0.3.3 which wait to hear
         // from us until they send their version message back.
         PeerAddress address = getAddress();
         log.info("Announcing to {} as: {}", address == null ? "Peer" : address.toSocketAddress(), versionMessage.subVer);
@@ -1228,6 +1228,7 @@ public class Peer extends PeerSocketHandler {
      */
     public void setDownloadParameters(long secondsSinceEpoch, boolean useFilteredBlocks) {
     	// For peercoin we cannot use filtered blocks until the protocol has been upgraded
+        useFilteredBlocks = false;
         lock.lock();
         try {
             Preconditions.checkNotNull(blockChain);
@@ -1389,6 +1390,13 @@ public class Peer extends PeerSocketHandler {
                 throw new RuntimeException(e);
             }
         }
+        
+        if (blockLocator.size() > 1) {
+            // For some reason we lose the last block when switching peers:
+            // remove the head so that it gets replayed
+            blockLocator.remove(0);
+        }
+        
         // Only add the locator if we didn't already do so. If the chain is < 50 blocks we already reached it.
         if (cursor != null)
             blockLocator.add(params.getGenesisBlock().getHash());

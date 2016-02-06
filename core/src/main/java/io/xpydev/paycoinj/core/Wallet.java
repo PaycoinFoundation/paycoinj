@@ -810,6 +810,54 @@ public class Wallet extends BaseTaggableObject implements Serializable, BlockCha
         saveNow();
         return added;
     }
+    
+    /**
+     * Removes the given output scripts from the wallet that were being watched.
+     *
+     * @return true if successful
+     */
+    public boolean removeWatchedAddress(final Address address) {
+        return removeWatchedAddresses(ImmutableList.of(address));
+    }
+
+    /**
+     * Removes the given output scripts from the wallet that were being watched.
+     *
+     * @return true if successful
+     */
+    public boolean removeWatchedAddresses(final List<Address> addresses) {
+        List<Script> scripts = Lists.newArrayList();
+
+        for (Address address : addresses) {
+            Script script = ScriptBuilder.createOutputScript(address);
+            scripts.add(script);
+        }
+
+        return removeWatchedScripts(scripts);
+    }
+
+    /**
+     * Removes the given output scripts from the wallet that were being watched.
+     *
+     * @return true if successful
+     */
+    public boolean removeWatchedScripts(final List<Script> scripts) {
+        lock.lock();
+        try {
+            for (final Script script : scripts) {
+                if (!watchedScripts.contains(script))
+                    continue;
+
+                watchedScripts.remove(script);
+            }
+
+            queueOnScriptsChanged(scripts, false);
+            saveNow();
+            return true;
+        } finally {
+            lock.unlock();
+        }
+    }
 
     /**
      * Returns all addresses watched by this wallet.
@@ -2041,7 +2089,7 @@ public class Wallet extends BaseTaggableObject implements Serializable, BlockCha
      * If the transactions outputs are all marked as spent, and it's in the unspent map, move it.
      * If the owned transactions outputs are not all marked as spent, and it's in the spent map, move it.
      */
-    private void maybeMovePool(Transaction tx, String context) {
+    public void maybeMovePool(Transaction tx, String context) {
         checkState(lock.isHeldByCurrentThread());
         if (tx.isEveryOwnedOutputSpent(this)) {
             // There's nothing left I can spend in this transaction.
@@ -2237,6 +2285,17 @@ public class Wallet extends BaseTaggableObject implements Serializable, BlockCha
                 @Override
                 public void run() {
                     registration.listener.onScriptsAdded(Wallet.this, scripts);
+                }
+            });
+        }
+    }
+
+    protected void queueOnScriptsChanged(final List<Script> scripts, final boolean isAddingScripts) {
+        for (final ListenerRegistration<WalletEventListener> registration : eventListeners) {
+            registration.executor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    registration.listener.onScriptsChanged(Wallet.this, scripts, isAddingScripts);
                 }
             });
         }
@@ -2438,6 +2497,26 @@ public class Wallet extends BaseTaggableObject implements Serializable, BlockCha
     public List<TransactionOutput> getWatchedOutputs(boolean excludeImmatureCoinbases) {
         lock.lock();
         try {
+            // convert watched scripts to addresses
+            List<Address> watchedAddresses = Lists.newArrayList();
+            for (Script watchedScript : watchedScripts) {
+                try {
+                    Address to;
+                    if (watchedScript.isSentToRawPubKey()) {
+                        to = ECKey.fromPublicOnly(watchedScript.getPubKey()).toAddress(params);
+                    } else if (watchedScript.isPayToScriptHash()) {
+                        to = Address.fromP2SHScript(params, watchedScript);
+                    } else if (watchedScript.isSentToAddress()) {
+                        to = watchedScript.getToAddress(params);
+                    } else {
+                        to = watchedScript.getToAddress(params, true);
+                    }
+                    watchedAddresses.add(to);
+                } catch (ScriptException e) {
+                    // Ignore
+                }
+            }
+            
             LinkedList<TransactionOutput> candidates = Lists.newLinkedList();
             for (Transaction tx : Iterables.concat(unspent.values(), pending.values())) {
                 if (excludeImmatureCoinbases && !tx.isMature()) continue;
@@ -2445,7 +2524,20 @@ public class Wallet extends BaseTaggableObject implements Serializable, BlockCha
                     if (!output.isAvailableForSpending()) continue;
                     try {
                         Script scriptPubKey = output.getScriptPubKey();
-                        if (!watchedScripts.contains(scriptPubKey)) continue;
+                        
+                        Address to;
+                        if (scriptPubKey.isSentToRawPubKey()) {
+                            to = ECKey.fromPublicOnly(scriptPubKey.getPubKey()).toAddress(params);
+                        } else if (scriptPubKey.isPayToScriptHash()) {
+                            to = Address.fromP2SHScript(params, scriptPubKey);
+                        } else if (scriptPubKey.isSentToAddress()) {
+                            to = scriptPubKey.getToAddress(params);
+                        } else {
+                            to = scriptPubKey.getToAddress(params, true);
+                        }
+                        
+                        // if (!watchedScripts.contains(scriptPubKey)) continue;
+                        if (!watchedAddresses.contains(to)) continue;
                         candidates.add(output);
                     } catch (ScriptException e) {
                         // Ignore
